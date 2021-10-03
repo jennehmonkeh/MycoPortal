@@ -41,8 +41,9 @@ Run 2 pre-saved queries:
 
 *updVerbatimDate --> updates all blank VerbatimDate with Date
 
+Used saved export to export to excel (my documents) 
 
-Used saved export to export to excel (my documents) and save to text
+### Export txt file from Excel (DAOMDATA.XLSX)
 
 To save a text file as tab-delimited, UTF-8 encoded in Excel: 
 
