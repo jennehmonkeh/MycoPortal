@@ -28,21 +28,16 @@ Brouillet L, Desmet P, Coursol F, Meades SJ, Favreau M, Anions M, Bélisle P, Ge
 
 ## Data manipulation needed: 
 
-DAOMDATA table (DAOM_2021.accdb):
+### DAOMDATA table (DAOM_2021.accdb):
 
 Data cleanup – search fields for carriage returns Chr(10) and line feeds --> Like "*" & Chr(13) & "*"
 
-DAOM table (daom.accdb):
+### DAOM table (daom.accdb):
 
 get rid of extra columns, move barcode to first position (not essential but easier for finding problems if there are problems)
 
-Run 3 pre-saved queries:  updAddRustState2Notes  -->  updVerbatimDate  -->  updDateValue
-
- add “Rust State” to Notes, update VerbatimDate with Date, convert Date with DateValues()
-
-In MS Access:  
-DateValue() doesn’t seem to work on incomplete dates or dates in the 1800s – however this may have to be used for now
-Transform date field using DateValue() to YYYY-MM-DD (uses Microsoft region language settings for short date), get rid of leading "00" and then get rid of false "01"s - look for bad dates 
+Run 2 pre-saved queries:  updAddRustState2Notes  -->  updVerbatimDate 
+adds “Rust State” to Notes, update VerbatimDate with Date
 
 Used saved export to export to excel (my documents) and save to text
 
