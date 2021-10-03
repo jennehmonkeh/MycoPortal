@@ -25,7 +25,6 @@ Brouillet L, Desmet P, Coursol F, Meades SJ, Favreau M, Anions M, Bélisle P, Ge
 #8 – If successful, download the DwC-A by selecting “view” and clicking on the download icon.  If unsuccessful read the log (report) file for specific line errors usually involving hidden carriage returns or line feeds.
  
 
-
 ## Data manipulation needed: 
 
 ### DAOMDATA table (DAOM_2021.accdb):
@@ -36,8 +35,9 @@ Data cleanup – search fields for carriage returns Chr(10) and line feeds --> L
 
 get rid of extra columns, move barcode to first position (not essential but easier for finding problems if there are problems)
 
-Run 2 pre-saved queries:  updAddRustState2Notes  -->  updVerbatimDate 
-adds “Rust State” to Notes, update VerbatimDate with Date
+Run 2 pre-saved queries: 
+*updAddRustState2Notes -->   adds “Rust State” to Notes
+*updVerbatimDate --> updates all blank VerbatimDate with Date
 
 Used saved export to export to excel (my documents) and save to text
 
