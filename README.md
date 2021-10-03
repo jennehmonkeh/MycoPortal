@@ -16,7 +16,7 @@ Brouillet L, Desmet P, Coursol F, Meades SJ, Favreau M, Anions M, Bélisle P, Ge
 #4 – Run the script Portal.R on the daomdata.txt file which creates the file “daom.txt”
 
 #5 – Upload “daom.txt” to the IPT after logging into canadensys:  https://data.canadensys.net/ipt/?request_locale=en
-	“Manage Resources”  -> aafc-daom-specimens -> view resource “choose file” -> “add”
+	“Manage Resources”  -> aafc-daom-specimens -> view resource “choose file” -> “add”  (delete old file first or the mapping will get mixed up)
 
 #6 – Ensure mapping is correct
 
