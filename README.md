@@ -5,6 +5,9 @@ Darwin Core Archive(DwC-A) Notes (same as readme.MD in github repository)
 Metadata - citation example from Canadensys: 
 Brouillet L, Desmet P, Coursol F, Meades SJ, Favreau M, Anions M, Bélisle P, Gendreau C, Shorthouse D, and contributors (2010+). Database of Vascular Plants of Canada (VASCAN). Online at http://data.canadensys.net/vascan and http://www.gbif.org/dataset/3f8a1297-3259-4700-91fc-acc4170b27ce, released on 2010-12-10. Version [xx]. GBIF key: 3f8a1297-3259-4700-91fc-acc4170b27ce. Data paper ID: doi: http://doi.org/10.3897/phytokeys.25.3100 [accessed on [date]] 
 
+## Canadensys documentation:
+https://community.canadensys.net/publication/data-publication-guide
+
 ## Creating a Darwin Core Archive involves formatting the DAOM database through a series of transformations:
 
 #1 – Import the database table DAOMDATA from the current master database (DAOM_2021.accdb) into “daom.accdb” using the saved import in access 
