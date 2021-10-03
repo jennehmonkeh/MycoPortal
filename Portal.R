@@ -1,5 +1,6 @@
 library(stringr)
 library(tidyr)
+library(stringi)
 
 #some preprocessing needs to happen in access first - for rust states add to notes
 
@@ -35,21 +36,24 @@ names(daom)<-sub("monthNUM","month",names(daom))
 names(daom)<-sub("dayNUM","day",names(daom))
 
 #build eventDate YYYY-MM-DD using the above 3 columns
-names(daom)<-sub("DATE","eventDate",names(daom))
-#daom <- daom %>% unite("eventDate",year:month:day,sep = "-",remove = FALSE,na.rm=TRUE)
+daom$zmth <- stri_pad_left(str=daom$month, 2, pad="0")
+daom$zday <- stri_pad_left(str=daom$day, 2, pad="0")
+
+daom <- daom %>% unite("eventDate",year:zday,sep = "-",remove = FALSE,na.rm=TRUE)
 
 # combine columns to new ones
 daom <- daom %>% unite("associatedTaxa", H_GENUS:H_SPEC, sep= " ")
 daom <- daom %>% unite("habitat", H_ETC:HABITAT, sep= " ")
 
 # remove columns
+daom <- subset(daom, select = -c(DATE))
+daom <- subset(daom, select = -c(zday,zmth))
 daom <- subset(daom, select = -c(OTHER_NO))
 daom <- subset(daom, select = -c(GROUP))
 #daom <- subset(daom, select = -c(HostFamily))
 daom <- subset(daom, select = -c(STATE))
 daom <- subset(daom, select = -c(ANAMORPH))
 
-dim(daom)
-# names(daom)
-#write.table(daom,file =  "daom1.txt",quote = FALSE, sep = "\t",row.names = FALSE,fileEncoding = "UTF-8")
+
 write.table(daom,file = "daom.txt",na = "",quote = FALSE, sep = "\t",row.names = FALSE,fileEncoding = "UTF-8")
+write.csv(daom,file = "daom.csv",na = "",quote = TRUE, row.names = FALSE,fileEncoding = "UTF-8")
