@@ -38,11 +38,13 @@ Data cleanup – search fields for carriage returns Chr(10) and line feeds --> L
 
 get rid of extra columns, move barcode to first position (not essential but easier for finding problems if there are problems)
 
-Run 2 pre-saved queries: 
+Run 3 pre-saved queries: 
 
-*updAddRustState2Notes -->   adds “Rust State” to Notes
+* updSTATEnull -->  makes sure the next query runs properly:
 
-*updVerbatimDate --> updates all blank VerbatimDate with Date
+* updAddRustState2Notes -->   adds “Rust State” to Notes
+
+* updVerbatimDate --> updates all blank VerbatimDate with Date
 
 Used saved export to export to excel (my documents) 
 
