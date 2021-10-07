@@ -21,7 +21,7 @@ https://community.canadensys.net/publication/data-publication-guide
 #5 – Upload “daom.txt” to the IPT after logging into canadensys:  https://data.canadensys.net/ipt/?request_locale=en
 	“Manage Resources”  -> aafc-daom-specimens -> view resource “choose file” -> “add”  (delete old file first or the mapping will get mixed up)
 
-#6 – Ensure mapping is correct
+#6 – Ensure mapping is correct - add verbatim locality to locality, Fungi to Kingdom and AAFC/DAOM to codes
 
 #7 – Hit “publish” 
 
