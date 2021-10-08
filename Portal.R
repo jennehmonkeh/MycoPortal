@@ -10,6 +10,14 @@ dim(daom)
 
 # remove 11k records with no barcode
 daom <- subset(daom, Barcode != "")
+# remove restricted specimens
+#daom <- subset(daom, DAOM != "R")
+#Verticillium longisporum     
+daom <- subset(daom, DAOM != "550247R")
+#Synchytrium endobioticum 
+daom <- subset(daom, SPECIES != "endobioticum")
+# Alternaria tomatophila 
+daom <- subset(daom, SPECIES != "tomatophila")
 
 # rename columns
 names(daom)<-sub("Barcode","occurrenceID",names(daom))
@@ -34,6 +42,7 @@ names(daom)<-sub("TYPE_SPEC","typeStatus",names(daom))
 names(daom)<-sub("yearNUM","year",names(daom))
 names(daom)<-sub("monthNUM","month",names(daom))
 names(daom)<-sub("dayNUM","day",names(daom))
+names(daom)<-sub("OTHER_NO","otherCatalogNumbers",names(daom))
 
 #build eventDate YYYY-MM-DD using the above 3 columns
 daom$zmth <- stri_pad_left(str=daom$month, 2, pad="0")
@@ -44,11 +53,12 @@ daom <- daom %>% unite("eventDate",year:zday,sep = "-",remove = FALSE,na.rm=TRUE
 # combine columns to new ones
 daom <- daom %>% unite("associatedTaxa", H_GENUS:H_SPEC, sep= " ")
 daom <- daom %>% unite("habitat", H_ETC:HABITAT, sep= " ")
-
+# make a copy of locality
+daom$locality <- daom$verbatimLocality
 # remove columns
 daom <- subset(daom, select = -c(DATE))
 daom <- subset(daom, select = -c(zday,zmth))
-daom <- subset(daom, select = -c(OTHER_NO))
+#daom <- subset(daom, select = -c(OTHER_NO))
 daom <- subset(daom, select = -c(GROUP))
 #daom <- subset(daom, select = -c(HostFamily))
 daom <- subset(daom, select = -c(STATE))
