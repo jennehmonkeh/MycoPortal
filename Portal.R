@@ -44,6 +44,8 @@ names(daom)<-sub("yearNUM","year",names(daom))
 names(daom)<-sub("monthNUM","month",names(daom))
 names(daom)<-sub("dayNUM","day",names(daom))
 names(daom)<-sub("OTHER_NO","otherCatalogNumbers",names(daom))
+names(daom)<-sub("HABITAT","habitat",names(daom))
+names(daom)<-sub("H_ETC","substrate",names(daom))
 
 #build eventDate YYYY-MM-DD using the above 3 columns
 daom$zmth <- stri_pad_left(str=daom$month, 2, pad="0")
@@ -51,14 +53,11 @@ daom$zday <- stri_pad_left(str=daom$day, 2, pad="0")
 
 daom <- daom %>% unite("eventDate",year:zday,sep = "-",remove = FALSE,na.rm=TRUE)
 
-# add substrate column
-daom$substrate <- daom$H_ETC
-
 # combine columns to new ones
 daom <- daom %>% unite("associatedTaxa", H_GENUS:H_SPEC, sep= " ")
 daom$associatedTaxa <- trim(daom$associatedTaxa)
 daom$associatedTaxa <- ifelse(daom$associatedTaxa=="",daom$associatedTaxa,paste("host:",daom$associatedTaxa))
-daom <- daom %>% unite("habitat", H_ETC:HABITAT, sep= " ")
+#daom <- daom %>% unite("habitat", H_ETC:HABITAT, sep= " ")
 
 # make a copy of locality
 daom$locality <- daom$verbatimLocality
