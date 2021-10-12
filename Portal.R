@@ -1,20 +1,21 @@
 library(stringr)
 library(tidyr)
 library(stringi)
+#needed for trim:
+library(gdata)
 
-#some preprocessing needs to happen in access first - for rust states add to notes
+#some pre-processing needs to happen in access first - for rust states add to notes
 
 setwd("C:\\DAOM\\DWCA")
 daom <- read.csv("DAOMDATA.TXT",sep = "\t")
-dim(daom)
 
 # remove 11k records with no barcode
 daom <- subset(daom, Barcode != "")
-# remove restricted specimens
-#daom <- subset(daom, DAOM != "R")
-#Verticillium longisporum     
+# remove restricted specimens:
+
+# Verticillium longisporum     
 daom <- subset(daom, DAOM != "550247R")
-#Synchytrium endobioticum 
+# Synchytrium endobioticum 
 daom <- subset(daom, SPECIES != "endobioticum")
 # Alternaria tomatophila 
 daom <- subset(daom, SPECIES != "tomatophila")
@@ -50,20 +51,26 @@ daom$zday <- stri_pad_left(str=daom$day, 2, pad="0")
 
 daom <- daom %>% unite("eventDate",year:zday,sep = "-",remove = FALSE,na.rm=TRUE)
 
+# add substrate column
+daom$substrate <- daom$H_ETC
+
 # combine columns to new ones
 daom <- daom %>% unite("associatedTaxa", H_GENUS:H_SPEC, sep= " ")
+daom$associatedTaxa <- trim(daom$associatedTaxa)
+daom$associatedTaxa <- ifelse(daom$associatedTaxa=="",daom$associatedTaxa,paste("host:",daom$associatedTaxa))
 daom <- daom %>% unite("habitat", H_ETC:HABITAT, sep= " ")
+
 # make a copy of locality
 daom$locality <- daom$verbatimLocality
+
 # remove columns
 daom <- subset(daom, select = -c(DATE))
 daom <- subset(daom, select = -c(zday,zmth))
-#daom <- subset(daom, select = -c(OTHER_NO))
 daom <- subset(daom, select = -c(GROUP))
 #daom <- subset(daom, select = -c(HostFamily))
 daom <- subset(daom, select = -c(STATE))
 daom <- subset(daom, select = -c(ANAMORPH))
 
-
+# create new files, one for upload to canadensys ipt (daom.txt) and one for reference (daom.csv)
 write.table(daom,file = "daom.txt",na = "",quote = FALSE, sep = "\t",row.names = FALSE,fileEncoding = "UTF-8")
 write.csv(daom,file = "daom.csv",na = "",quote = TRUE, row.names = FALSE,fileEncoding = "UTF-8")
