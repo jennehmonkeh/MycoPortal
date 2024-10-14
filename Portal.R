@@ -1,4 +1,5 @@
 library(stringr)
+library(dplyr)
 library(tidyr)
 library(stringi)
 #needed for trim:
@@ -6,8 +7,8 @@ library(gdata)
 
 #some pre-processing needs to happen in access first - for rust states add to notes
 rm(list = ls())
-# setwd("C:\\DAOM\\MYCOPORTAL\\MYCOPORTAL")
-setwd("C:\\Users\\wilkinsonj\\Documents\\mycoportal")
+setwd("C:\\DAOM\\MYCOPORTAL\\DWCA")
+#make sure this tab delimited text file has been saved in Notepad with UTF-8 encoding
 daom <- read.csv("DAOMDATA.txt",sep = "\t")
 
 #daom <- read.csv("daom.txt",sep = "\t",header = FALSE, encoding = "UTF-8")
@@ -28,8 +29,10 @@ daom <- subset(daom, GROUP != "Nomina confusa")
 daom <- subset(daom, GROUP != "Virus")
 
 
-
 daomBACK <- daom
+
+
+daom$INIT_NAME <- paste0("Initial name: ", daom$INIT_NAME)
 
 # remove restricted specimens:
 # Verticillium longisporum     
@@ -39,6 +42,17 @@ daom <- subset(daom, SPECIES != "endobioticum")
 # Alternaria tomatophila 
 daom <- subset(daom, SPECIES != "tomatophila")
 daom <- subset(daom, GENUS != "UNIDENTIFIED")
+
+daom$COUNTRY <- gsub("Central African Rep.", "Central African Republic",daom$COUNTRY)
+daom$COUNTRY <- gsub("Micronesia (F.S. of)", "Micronesia, Federated States of)",daom$COUNTRY)
+daom$COUNTRY <- gsub("Iran", "Iran, Islamic Republic of)",daom$COUNTRY)
+daom$COUNTRY <- gsub("Bosnia & Herzegovina", "Bosnia and Herzegovina",daom$COUNTRY)
+# the opposite of what you might imagine....
+daom$COUNTRY <- gsub("North Korea", "Korea, Democratic People's Republic of",daom$COUNTRY)
+daom$COUNTRY <- gsub("South Korea", "Korea, Republic of",daom$COUNTRY)
+
+
+daom$PROVINCE <- gsub("Newfoundland&Labrador","Newfoundland and Labrador",daom$PROVINCE )
 
 # don't include authority as MycoPortal autofills as long as taxa in FDex
 #names(daom)<-sub("AUTHORS","scientificNameAuthorship",names(daom))
@@ -72,6 +86,8 @@ names(daom)<-sub("dayNUM","day",names(daom))
 names(daom)<-sub("OTHER_NO","otherCatalogNumbers",names(daom))
 names(daom)<-sub("HABITAT","habitat",names(daom))
 names(daom)<-sub("H_ETC","substrate",names(daom))
+names(daom)<-sub("Collector_No","recordnumber",names(daom))
+
 
 #build eventDate YYYY-MM-DD using the above 3 columns
 daom$zyear <- daom$year
@@ -98,7 +114,7 @@ daom <- subset(daom, select = -c(ExsiSetID))
 daom <- subset(daom, select = -c(STATE))
 daom <- subset(daom, select = -c(ANAMORPH))
 daom <- subset(daom, select = -c(X2023Culture, CCFC, FROM, ISOLATE_NO, PrintOrder))
-daom <- subset(daom, select = -c(CULTURE, Image, HostFamily,EXISTS))
+daom <- subset(daom, select = -c(CULTURE, Image, HostFamily,EXISTS, AisleCabinet))
 
 
 # create new files, one for upload to canadensys ipt (daom.txt) and one for reference (daom.csv)
